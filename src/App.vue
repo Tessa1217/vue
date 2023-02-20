@@ -56,7 +56,11 @@ svg {
   color: black;
   text-decoration: none;
 }
-
+.table a:hover {
+  text-decoration: underline;
+  font-weight: bold;
+  color: black;
+}
 .table .thead-green {
   background-color: #61876e;
   color: white;
@@ -75,28 +79,29 @@ svg {
 .board-write .form-group {
   margin-bottom: 10px;
 }
-.board-view {
-  border-top: 2px solid #61876e;
-  border-bottom: 2px solid #61876e;
+.board-view-wrapper {
+  border: 2px solid #94b49f;
+  padding: 30px;
 }
 .board-title {
   padding: 10px 5px;
-  border-bottom: 2px solid #61876e;
+  border-top: 3px solid #61876e;
+  border-bottom: 3px solid #61876e;
+}
+.board-info {
+  text-align: right;
+  padding: 5px;
 }
 .board-info span {
   margin-right: 10px;
-  padding: 5px;
-}
-.board-info .date {
-  float: right;
 }
 .content {
-  min-height: 300px;
+  min-height: 400px;
   word-break: break-all;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #eee;
-  margin-bottom: 10px;
+  border: 1px solid #61876e;
+  margin: 15px 0px;
 }
 .button-box {
   padding: 10px;

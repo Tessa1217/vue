@@ -1,15 +1,24 @@
 <template>
   <h1 class="main-title">게시글 목록조회</h1>
   <div id="container-fluid">
+    <div class="text-end">
+      <button
+        class="btn btn-success mb-2"
+        type="button"
+        @click="$router.push({ name: 'BoardInsert' })"
+      >
+        <font-awesome-icon icon="fa-solid fa-pen-to-square" />글쓰기
+      </button>
+    </div>
     <table class="table table-hover text-center table-responsive">
       <caption>
         게시판 게시물 목록에 대한 테이블입니다.
       </caption>
       <colgroup>
         <col style="width: 10%" />
-        <col style="width: 40%" />
-        <col style="width: 20%" />
-        <col style="width: 30%" />
+        <col style="width: 60%" />
+        <col style="width: 15%" />
+        <col style="width: 15%" />
       </colgroup>
       <thead class="thead-green">
         <tr>
@@ -21,8 +30,8 @@
       </thead>
       <tbody>
         <tr v-for="(board, index) in boardList" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td class="text-left">
+          <td>{{ index + 1 + page * pageSize }}</td>
+          <td class="text-start">
             <router-link
               :to="{ name: 'BoardDetail', params: { id: board.id } }"
               >{{ board.title }}</router-link
@@ -33,15 +42,15 @@
         </tr>
       </tbody>
     </table>
-    <div class="button-box">
-      <button
-        class="btn btn-success"
-        type="button"
-        @click="$router.push({ name: 'BoardInsert' })"
-      >
-        <font-awesome-icon icon="fa-solid fa-pen-to-square" />글쓰기
-      </button>
-    </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" v-for="num in (page, totalPage)" :key="num">
+          <a class="page-link" href="#" @click="getBoardList(num - 1)">{{
+            num
+          }}</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -51,12 +60,13 @@ export default {
   data() {
     return {
       boardList: [],
+      totalPage: 0,
+      pageSize: 10,
+      page: 0,
     };
   },
   beforeMount() {
-    this.axios.post("/board/selectBoardList.do").then((response) => {
-      this.boardList = response.data;
-    });
+    this.getBoardList(this.page);
   },
   methods: {
     // 추후 부모 컴포넌트로 빼서 공용으로 사용예정
@@ -64,6 +74,16 @@ export default {
       if (date) {
         return date.substring(0, 10);
       }
+    },
+    getBoardList: function (pageNum) {
+      this.axios
+        .get("/board/selectBoardList.do", { params: { page: pageNum } })
+        .then((response) => {
+          this.boardList = response.data.boardList;
+          this.totalPage = response.data.totalPage;
+          this.pageSize = response.data.pageSize;
+          this.page = response.data.pageNumber;
+        });
     },
   },
 };
