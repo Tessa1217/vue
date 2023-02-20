@@ -9,7 +9,7 @@ const routes = [
   },
   {
     // 게시판 목록 조회
-    path: "/board/list",
+    path: "/board",
     component: () => import("@/components/board/BoardList"),
     name: "BoardList",
   },

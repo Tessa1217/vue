@@ -1,5 +1,5 @@
 <template>
-  <h1 class="main-title">게시글 목록조회</h1>
+  <h1 class="main-title">게시글 목록 조회</h1>
   <div id="container-fluid">
     <div class="text-end">
       <button
@@ -79,6 +79,7 @@ export default {
       this.axios
         .get("/board/selectBoardList.do", { params: { page: pageNum } })
         .then((response) => {
+          console.log(response);
           this.boardList = response.data.boardList;
           this.totalPage = response.data.totalPage;
           this.pageSize = response.data.pageSize;
