@@ -8,6 +8,12 @@ const routes = [
     name: "MainHome",
   },
   {
+    // 로그인 페이지
+    path: "/login",
+    component: () => import("@/components/auth/LoginComponent"),
+    name: "LoginComponent",
+  },
+  {
     // 게시판 목록 조회
     path: "/board",
     component: () => import("@/components/board/BoardList"),
