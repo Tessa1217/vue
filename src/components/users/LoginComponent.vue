@@ -1,6 +1,9 @@
 <template>
+  <div>
+    <page-title-component :title="pagetitle" />
+  </div>
   <div class="login-container">
-    <form class="login-form">
+    <div class="login-form">
       <h2 class="text-center my-4">Login</h2>
       <div class="form-group">
         <label for="id">아이디</label>
@@ -26,21 +29,33 @@
         <button type="button" class="btn btn-success mx-2" @click="actionLogin">
           로그인
         </button>
-        <button type="button" class="btn btn-secondary">회원가입</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="$router.push({ name: 'SignUpComponent' })"
+        >
+          회원가입
+        </button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
+import PageTitleComponent from "./PageTitleComponent.vue";
 export default {
+  name: "LoginComponent",
   data() {
     return {
+      pagetitle: "로그인",
       user: {
         id: "",
         password: "",
       },
     };
+  },
+  components: {
+    PageTitleComponent,
   },
   methods: {
     actionLogin: function () {

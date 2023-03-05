@@ -9,9 +9,15 @@ const routes = [
   },
   {
     // 로그인 페이지
-    path: "/login",
-    component: () => import("@/components/auth/LoginComponent"),
+    path: "/users/login",
+    component: () => import("@/components/users/LoginComponent"),
     name: "LoginComponent",
+  },
+  {
+    // 회원가입 페이지
+    path: "/users/signup",
+    component: () => import("@/components/users/SignUpComponent"),
+    name: "SignUpComponent",
   },
   {
     // 게시판 목록 조회
