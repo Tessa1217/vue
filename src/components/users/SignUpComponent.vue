@@ -4,15 +4,15 @@
     <div class="sign-up-container">
       <div class="col-8">
         <div class="form-group row">
-          <label class="col-2 col-form-label" for="id">아이디</label>
+          <label class="col-2 col-form-label" for="name">아이디</label>
           <div class="col-10">
             <input
               class="form-control"
               type="text"
-              id="id"
+              id="name"
               title="아이디"
               placeholder="아이디를 입력해주세요."
-              v-model="id"
+              v-model="user.name"
             />
           </div>
         </div>
@@ -25,26 +25,30 @@
               id="password"
               title="비밀번호"
               placeholder="비밀번호를 입력해주세요."
-              v-model="password"
+              v-model="user.password"
             />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-2 col-form-label" for="name">이름</label>
+          <label class="col-2 col-form-label" for="nickname">닉네임</label>
           <div class="col-10">
             <input
               class="form-control"
               type="text"
-              id="name"
-              title="이름"
-              placeholder="이름을 입력해주세요."
-              v-model="name"
+              id="nickname"
+              title="닉네임"
+              placeholder="닉네임을 입력해주세요."
+              v-model="user.nickname"
             />
           </div>
         </div>
         <div class="form-group text-center">
-          <button class="btn btn-success mx-2" @click="signUp">회원가입</button>
-          <button class="btn btn-secondary" @click="loginPage">로그인</button>
+          <button type="button" class="btn btn-success mx-2" @click="signUp">
+            회원가입
+          </button>
+          <button type="button" class="btn btn-secondary" @click="loginPage">
+            로그인
+          </button>
         </div>
       </div>
     </div>
@@ -59,9 +63,11 @@ export default {
   data() {
     return {
       pagetitle: "회원가입",
-      id: "",
-      password: "",
-      name: "",
+      user: {
+        name: "",
+        password: "",
+        nickname: "",
+      },
     };
   },
   watch: {
@@ -80,23 +86,21 @@ export default {
   methods: {
     signUp: function () {
       const url = "/users/signUp.do";
-      const data = {
-        id: this.id,
-        password: this.password,
-        name: this.name,
-      };
       this.axios({
         method: "post",
         url: url,
-        data: data,
+        data: this.user,
       })
         .then((response) => {
-          if (response === "success") {
+          if (response.data === "success") {
+            alert("회원가입이 완료되었습니다.");
             this.loginPage();
+          } else if (response.data === "failed") {
+            alert("중복된 아이디가 있습니다.");
           }
         })
         .catch((error) => {
-          alert(error);
+          console.log(error);
         });
     },
     loginPage: function () {

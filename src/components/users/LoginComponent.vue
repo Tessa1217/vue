@@ -12,7 +12,7 @@
           type="text"
           class="form-control"
           placeholder="아이디를 입력하세요"
-          v-model="user.id"
+          v-model="user.name"
         />
       </div>
       <div class="form-group">
@@ -49,7 +49,7 @@ export default {
     return {
       pagetitle: "로그인",
       user: {
-        id: "",
+        name: "",
         password: "",
       },
     };
@@ -59,7 +59,16 @@ export default {
   },
   methods: {
     actionLogin: function () {
-      alert(this.user.id);
+      const url = "/users/login.do";
+      this.axios({
+        method: "post",
+        url: url,
+        data: this.user,
+      }).then((response) => {
+        if (response.status === 200) {
+          this.$cookies.set("token", response.data.token);
+        }
+      });
     },
   },
 };
