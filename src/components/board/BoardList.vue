@@ -76,6 +76,7 @@ export default {
       }
     },
     getBoardList: function (pageNum) {
+      console.log(this.axios.defaults.headers);
       this.axios
         .get("/board/selectBoardList.do", { params: { page: pageNum } })
         .then((response) => {

@@ -4,7 +4,6 @@
   </div>
   <div class="login-container">
     <div class="login-form">
-      <h2 class="text-center my-4">Login</h2>
       <div class="form-group">
         <label for="id">아이디</label>
         <input
@@ -43,6 +42,7 @@
 
 <script>
 import PageTitleComponent from "./PageTitleComponent.vue";
+import { mapActions } from "vuex";
 export default {
   name: "LoginComponent",
   data() {
@@ -58,6 +58,7 @@ export default {
     PageTitleComponent,
   },
   methods: {
+    ...mapActions({ setUserToken: "UserStore/setToken" }),
     actionLogin: function () {
       const url = "/users/login.do";
       this.axios({
@@ -66,7 +67,9 @@ export default {
         data: this.user,
       }).then((response) => {
         if (response.status === 200) {
-          this.$cookies.set("token", response.data.token);
+          console.log(response.data.token);
+          this.setUserToken(response.data.token);
+          this.$router.push({ name: "MainHome" });
         }
       });
     },
@@ -74,27 +77,52 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .login-container {
   display: flex;
   justify-content: center;
   align-content: center;
-  margin-top: 200px;
-  height: 100vh;
+  padding: 30px;
+  border: 2px solid #94b49f;
 }
 
 .login-form {
-  width: 500px;
-  height: 400px;
+  width: 100%;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-content: center;
-  background-color: gray;
+  background: linear-gradient(132deg, #c5e6d0 0%, #94b49f 33%, #3c6255 66%);
+  background-size: 400% 400%;
   padding: 30px;
   border-radius: 10px;
+  animation: backgroundAnimation 20s ease infinite;
 }
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.form-group input {
+  border: none;
 }
 </style>

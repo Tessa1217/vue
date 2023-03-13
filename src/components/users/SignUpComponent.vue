@@ -124,4 +124,11 @@ export default {
   align-content: center;
   justify-content: center;
 }
+.form-group:last-child {
+  margin-bottom: 0px;
+}
+.form-group label {
+  font-weight: bold;
+  text-align: center;
+}
 </style>
