@@ -7,7 +7,7 @@
       </div>
       <div class="row">
         <div class="board-info">
-          <span class="writer">작성자: </span>
+          <span class="writer">작성자: {{ board.writer }}</span>
           <span class="cnt">조회수: {{ board.viewCnt }}</span>
           <span class="date">등록일: {{ formatDate(board.regDate) }}</span>
         </div>
@@ -24,6 +24,7 @@
           목록
         </button>
         <button
+          v-if="isWriter"
           class="btn btn-success"
           type="button"
           @click="
@@ -32,7 +33,12 @@
         >
           수정
         </button>
-        <button class="btn btn-danger" type="button" @click="deleteBoard">
+        <button
+          v-if="isWriter"
+          class="btn btn-danger"
+          type="button"
+          @click="deleteBoard"
+        >
           삭제
         </button>
       </div>
@@ -41,13 +47,12 @@
 </template>
 
 <script>
+import BoardService from "@/services/board/BoardService";
+import { mapGetters } from "vuex";
 export default {
   beforeMount() {
-    const url = "/board/selectBoardDetail.do";
-    const data = {
-      id: this.id,
-    };
-    this.axios.get(url, { params: data }).then((response) => {
+    // 게시글 상세조회
+    BoardService.get(this.id).then((response) => {
       this.board = response.data;
     });
   },
@@ -57,18 +62,23 @@ export default {
       id: this.$route.params.id,
     };
   },
+  computed: {
+    ...mapGetters({ writer: "UserStore/getUserName" }),
+    isWriter: function () {
+      // 현재 로그인 유저가 작성자인지 여부 확인
+      return this.writer === this.board.userName;
+    },
+  },
   methods: {
+    // 줄바꿈 치환
     replaceBreakLine: function (content) {
       if (content) {
         return content.replaceAll("\n", "<br/>");
       }
     },
+    // 게시글 삭제
     deleteBoard: function () {
-      const url = "/board/deleteBoard.do/" + this.id;
-      this.axios({
-        method: "post",
-        url: url,
-      }).then((response) => {
+      BoardService.delete(this.id).then((response) => {
         if (response.data === "success") {
           this.$router.push({ name: "BoardList" });
         }

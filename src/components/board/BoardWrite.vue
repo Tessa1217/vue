@@ -55,59 +55,43 @@
 </template>
 
 <script>
+import BoardService from "@/services/board/BoardService";
 export default {
   name: "BoardWrite",
-  beforeMount() {
+  created() {
     // 수정일 경우 게시물 정보 조회
-    if (this.id) {
-      const url = "/board/selectBoard.do";
-      const data = {
-        id: this.id,
-      };
-      this.axios.get(url, { params: data }).then((response) => {
+    if (this.$route.params.id) {
+      this.id = this.$route.params.id;
+      BoardService.get(this.id).then((response) => {
         this.board = response.data;
       });
     }
   },
   data() {
     return {
-      board: {
-        title: "",
-        content: "",
-        viewCnt: 0,
-        delYn: "N",
-      },
-      id: this.$route.params.id,
+      board: {},
+      id: 0,
+      pageTitle: this.id ? "게시글 수정" : "게시글 등록",
     };
   },
   methods: {
     save: function () {
       // 게시글 등록
-      const url = "/board/insertBoard.do";
-      this.requestFnc(url);
+      BoardService.insert(this.board).then((response) => {
+        this.moveToDetailPage(response.data);
+      });
     },
     update: function () {
       // 게시물 수정
-      const url = "/board/updateBoard.do/" + this.id;
-      this.requestFnc(url);
+      BoardService.update(this.id, this.board).then((response) => {
+        this.moveToDetailPage(response.data);
+      });
     },
-    requestFnc: function (url) {
-      // axios post 요청 실행 함수
-      this.axios({
-        method: "post",
-        url: url,
-        data: this.board,
-      })
-        .then((response) => {
-          this.$router.push({
-            name: "BoardDetail",
-            params: { id: response.data },
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("오류가 발생했습니다.");
-        });
+    moveToDetailPage(id) {
+      this.$router.push({
+        name: "BoardDetail",
+        params: { id: id },
+      });
     },
   },
   watch: {},

@@ -30,7 +30,7 @@
       </thead>
       <tbody>
         <tr v-for="(board, index) in boardList" :key="index">
-          <td>{{ index + 1 + page * pageSize }}</td>
+          <td>{{ firstBoardNum - index }}</td>
           <td class="text-start">
             <router-link
               :to="{ name: 'BoardDetail', params: { id: board.id } }"
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import BoardService from "@/services/board/BoardService";
 export default {
   name: "BoardList",
   data() {
@@ -63,10 +64,18 @@ export default {
       totalPage: 0,
       pageSize: 10,
       page: 0,
+      totalCnt: 0,
     };
   },
   beforeMount() {
     this.getBoardList(this.page);
+  },
+  computed: {
+    // 게시판 가장 상위 게시물 번호
+    firstBoardNum: function () {
+      // 전체 게시물 수 - 페이지 인덱스 * 페이지 사이즈
+      return this.totalCnt - this.page * this.pageSize;
+    },
   },
   methods: {
     // 추후 부모 컴포넌트로 빼서 공용으로 사용예정
@@ -75,17 +84,16 @@ export default {
         return date.substring(0, 10);
       }
     },
+    // 게시글 목록 조회
     getBoardList: function (pageNum) {
-      console.log(this.axios.defaults.headers);
-      this.axios
-        .get("/board/selectBoardList.do", { params: { page: pageNum } })
-        .then((response) => {
-          console.log(response);
-          this.boardList = response.data.boardList;
-          this.totalPage = response.data.totalPage;
-          this.pageSize = response.data.pageSize;
-          this.page = response.data.pageNumber;
-        });
+      BoardService.getList(pageNum).then((response) => {
+        const data = response.data;
+        this.boardList = data.boardList;
+        this.totalPage = data.totalPage;
+        this.pageSize = data.pageSize;
+        this.page = data.pageNumber;
+        this.totalCnt = data.totalCnt;
+      });
     },
   },
 };

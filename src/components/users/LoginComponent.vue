@@ -42,6 +42,7 @@
 
 <script>
 import PageTitleComponent from "./PageTitleComponent.vue";
+import UserService from "@/services/user/UserService";
 import { mapActions } from "vuex";
 export default {
   name: "LoginComponent",
@@ -58,17 +59,15 @@ export default {
     PageTitleComponent,
   },
   methods: {
-    ...mapActions({ setUserToken: "UserStore/setToken" }),
+    ...mapActions({ setUserInfo: "UserStore/setUserInfo" }),
     actionLogin: function () {
-      const url = "/users/login.do";
-      this.axios({
-        method: "post",
-        url: url,
-        data: this.user,
-      }).then((response) => {
+      UserService.login(this.user).then((response) => {
         if (response.status === 200) {
-          console.log(response.data.token);
-          this.setUserToken(response.data.token);
+          const userInfo = {
+            token: response.data.tokenType + response.data.accessToken,
+            userName: response.data.userName,
+          };
+          this.setUserInfo(userInfo);
           this.$router.push({ name: "MainHome" });
         }
       });

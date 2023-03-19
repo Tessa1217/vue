@@ -9,10 +9,14 @@
 import HeaderNav from "@/components/base/HeaderNav.vue";
 export default {
   name: "App",
+  data() {
+    return {
+      title: "",
+    };
+  },
   components: {
     HeaderNav,
   },
-  methods: {},
 };
 </script>
 

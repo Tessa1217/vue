@@ -57,6 +57,7 @@
 
 <script>
 import PageTitleComponent from "./PageTitleComponent.vue";
+import UserService from "@/services/user/UserService";
 export default {
   name: "SignUpComponent",
   components: { PageTitleComponent },
@@ -85,18 +86,14 @@ export default {
   },
   methods: {
     signUp: function () {
-      const url = "/users/signUp.do";
-      this.axios({
-        method: "post",
-        url: url,
-        data: this.user,
-      })
+      UserService.signUp(this.user)
         .then((response) => {
-          if (response.data === "success") {
-            alert("회원가입이 완료되었습니다.");
+          const map = response.data;
+          alert(map.msg);
+          if (map.result === "success") {
             this.loginPage();
-          } else if (response.data === "failed") {
-            alert("중복된 아이디가 있습니다.");
+          } else {
+            location.reload();
           }
         })
         .catch((error) => {
