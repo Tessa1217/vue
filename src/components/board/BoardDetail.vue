@@ -1,3 +1,4 @@
+/** 게시글 상세보기 */
 <template>
   <h1 class="main-title">게시글 상세조회</h1>
   <div class="board-view-wrapper">
@@ -63,6 +64,7 @@ export default {
     };
   },
   computed: {
+    /** 작성자 아이디 조회 */
     ...mapGetters({ writer: "UserStore/getUserName" }),
     isWriter: function () {
       // 현재 로그인 유저가 작성자인지 여부 확인
@@ -70,13 +72,13 @@ export default {
     },
   },
   methods: {
-    // 줄바꿈 치환
+    /** 줄바꿈 치환 */
     replaceBreakLine: function (content) {
       if (content) {
         return content.replaceAll("\n", "<br/>");
       }
     },
-    // 게시글 삭제
+    /** 게시글 삭제 */
     deleteBoard: function () {
       BoardService.delete(this.id).then((response) => {
         if (response.data === "success") {
@@ -84,6 +86,7 @@ export default {
         }
       });
     },
+    /** 날짜 포맷 변환 */
     formatDate: function (date) {
       if (date) {
         return date.substring(0, 10);

@@ -1,3 +1,4 @@
+/** 상단 네비게이션 */
 <template>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
@@ -46,9 +47,11 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "HeaderNav",
   computed: {
+    /** 로그인 여부 */
     ...mapGetters({ loginState: "UserStore/isLoggedIn" }),
   },
   methods: {
+    /** 로그아웃 */
     ...mapActions({ removeToken: "UserStore/removeToken" }),
     logOut: function () {
       this.removeToken();

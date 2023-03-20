@@ -2,17 +2,23 @@ import http from "@/js/http-common";
 
 class CommentService {
   #requestURL = "/comment";
-  getList() {
-    return http.get(`${requestURL}/getCommentList.do`);
+  /** 댓글 목록 조회 */
+  getList(pageNum) {
+    return http.get(`${requestURL}/getCommentList.do`, {
+      params: { page: pageNum },
+    });
   }
-  insert() {
-    return http.post(`${requestURL}/insertComment.do`);
+  /** 댓글 등록 */
+  insert(data) {
+    return http.post(`${requestURL}/insertComment.do`, data);
   }
-  update() {
-    return http.post(`${requestURL}/updateComment.do`);
+  /** 댓글 수정 */
+  update(id, data) {
+    return http.post(`${requestURL}/updateComment.do/${id}`, data);
   }
-  delete() {
-    return http.post(`${requestURL}/deleteComment.do`);
+  /** 댓글 삭제 */
+  delete(id) {
+    return http.post(`${requestURL}/deleteComment.do/${id}`);
   }
 }
 

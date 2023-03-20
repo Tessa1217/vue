@@ -1,3 +1,4 @@
+/** 게시글 목록 조회 */
 <template>
   <h1 class="main-title">게시글 목록 조회</h1>
   <div id="container-fluid">
@@ -68,6 +69,7 @@ export default {
     };
   },
   beforeMount() {
+    /** 마운트 전에 게시글 목록 조회 */
     this.getBoardList(this.page);
   },
   computed: {

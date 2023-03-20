@@ -1,3 +1,4 @@
+/** 로그인 */
 <template>
   <div>
     <page-title-component :title="pagetitle" />
@@ -59,6 +60,7 @@ export default {
     PageTitleComponent,
   },
   methods: {
+    /** 로그인 후 토큰 정보 + 사용자 아이디 저장 */
     ...mapActions({ setUserInfo: "UserStore/setUserInfo" }),
     actionLogin: function () {
       UserService.login(this.user).then((response) => {

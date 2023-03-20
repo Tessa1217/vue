@@ -1,3 +1,4 @@
+/** 회원가입 */
 <template>
   <div>
     <page-title-component :title="pagetitle" />
@@ -85,6 +86,7 @@ export default {
     // },
   },
   methods: {
+    /** 회원가입 */
     signUp: function () {
       UserService.signUp(this.user)
         .then((response) => {
@@ -101,6 +103,7 @@ export default {
         });
     },
     loginPage: function () {
+      /** 로그인 페이지로 이동 */
       this.$router.push({
         name: "LoginComponent",
       });

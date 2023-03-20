@@ -38,12 +38,13 @@ const routes = [
         name: "BoardDetail",
       },
       {
-        // 게시판 등록/수정
+        // 게시판 등록
         path: "insert",
         component: () => import("@/components/board/BoardWrite"),
         name: "BoardInsert",
       },
       {
+        // 게시판 수정
         path: "update/:id",
         component: () => import("@/components/board/BoardWrite"),
         name: "BoardUpdate",
@@ -58,6 +59,7 @@ const router = createRouter({
   linkActiveClass: "link-active",
 });
 
+// 네비게이션 가드 세팅
 router.beforeEach((to) => {
   if (to.meta.authRequired) {
     const isLogin = store.getters["UserStore/isLoggedIn"];
