@@ -70,6 +70,10 @@ svg {
   color: white;
   border: none;
 }
+.content-wrapper {
+  border: 2px solid #94b49f;
+  padding: 30px;
+}
 .board-write {
   border: 2px solid #61876e;
   border-radius: 10px;
@@ -82,10 +86,6 @@ svg {
 }
 .board-write .form-group {
   margin-bottom: 10px;
-}
-.board-view-wrapper {
-  border: 2px solid #94b49f;
-  padding: 30px;
 }
 .board-title {
   padding: 10px 5px;

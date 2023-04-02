@@ -1,7 +1,7 @@
 /** 게시글 상세보기 */
 <template>
   <h1 class="main-title">게시글 상세조회</h1>
-  <div class="board-view-wrapper">
+  <div class="board-view-wrapper content-wrapper">
     <div class="board-view container">
       <div class="row">
         <h3 class="board-title">{{ board.title }}</h3>
@@ -45,10 +45,20 @@
       </div>
     </div>
   </div>
+  <div class="comment-view-wrapper content-wrapper">
+    <div class="comment-write-container">
+      <comment-write />
+    </div>
+    <div class="comment-list-container content-wrapper">
+      <comment-list />
+    </div>
+  </div>
 </template>
 
 <script>
 import BoardService from "@/services/board/BoardService";
+import CommentWrite from "@/components/comment/CommentWrite.vue";
+import CommentList from "@/components/comment/CommentList.vue";
 import { mapGetters } from "vuex";
 export default {
   beforeMount() {
@@ -56,6 +66,10 @@ export default {
     BoardService.get(this.id).then((response) => {
       this.board = response.data;
     });
+  },
+  components: {
+    CommentWrite: CommentWrite,
+    CommentList: CommentList,
   },
   data() {
     return {
@@ -96,4 +110,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.comment-write-container,
+.comment-list-container {
+  margin-top: 20px;
+}
+</style>

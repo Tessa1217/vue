@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <div class="comment-list-wrapper"></div>
+</template>
 
 <script>
 export default {
