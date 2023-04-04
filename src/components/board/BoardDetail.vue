@@ -47,7 +47,7 @@
   </div>
   <div class="comment-view-wrapper content-wrapper">
     <div class="comment-write-container">
-      <comment-write />
+      <comment-write :board="board" />
     </div>
     <div class="comment-list-container content-wrapper">
       <comment-list />
